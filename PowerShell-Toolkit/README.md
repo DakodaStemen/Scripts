@@ -151,23 +151,4 @@ MIT License - Feel free to use in personal or commercial projects.
 - **For web devs**: Image-Optimizer and Deploy-To-Cloudflare
 - **Power users**: Try Clipboard-Manager and Time-Tracker
 
----
-
-## 🔗 Links
-
-- **GitHub**: [github.com/yourusername/powershell-toolkit](https://github.com/yourusername/powershell-toolkit)
-- **Portfolio**: [yourportfolio.com/scripts](https://yourportfolio.com/scripts)
-- **Issues**: [Report bugs or request features](https://github.com/yourusername/powershell-toolkit/issues)
-
----
-
-## 📞 Support
-
-- 📧 Email: your@email.com
-- 💬 Discord: YourDiscord#0000
-- 🐦 Twitter: @yourtwitter
-
----
-
-**Made with ❤️ for the PowerShell community**
 
