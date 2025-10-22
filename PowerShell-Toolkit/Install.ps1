@@ -2,12 +2,18 @@
 
 <#
 .SYNOPSIS
-    PowerShell Toolkit Installer
+    PowerShell Toolkit Installer - Professional automation scripts collection
 .DESCRIPTION
-    Installs and configures the PowerShell Toolkit suite
+    Installs and configures the PowerShell Toolkit suite with 27+ production-ready scripts
+    across 7 categories for system administration, development, and operational efficiency.
 .NOTES
-    Author: PowerShell Toolkit
-    Requires: Administrator privileges
+    Author: Dakoda Stemen
+    Version: 2.0
+    Created: 2024-10-21
+    Repository: https://github.com/DakodaStemen/Scripts
+    Requires: Administrator privileges (recommended)
+.LINK
+    https://github.com/DakodaStemen/Scripts
 #>
 
 $ToolkitPath = $PSScriptRoot
@@ -18,6 +24,7 @@ function Write-Banner {
     Write-Host "║                                                        ║" -ForegroundColor Cyan
     Write-Host "║        PowerShell Toolkit - Installation              ║" -ForegroundColor Cyan
     Write-Host "║        Professional Automation Scripts                ║" -ForegroundColor Cyan
+    Write-Host "║        Created by Dakoda Stemen                       ║" -ForegroundColor Cyan
     Write-Host "║                                                        ║" -ForegroundColor Cyan
     Write-Host "╚════════════════════════════════════════════════════════╝" -ForegroundColor Cyan
     Write-Host ""
@@ -145,7 +152,7 @@ Write-Host '  .\System-Utilities\System-Info.ps1' -ForegroundColor Yellow
 Write-Host '  .\File-Management\Smart-File-Organizer.ps1 -Path "C:\Downloads"' -ForegroundColor Yellow
 Write-Host '  .\Development-Tools\Project-Initializer.ps1 -ProjectName "MyApp" -ProjectType React' -ForegroundColor Yellow
 Write-Host ""
-Write-Host "Documentation: https://github.com/yourusername/powershell-toolkit" -ForegroundColor Gray
+Write-Host "Documentation: https://github.com/DakodaStemen/Scripts" -ForegroundColor Gray
 Write-Host ""
 
 # Pause for user

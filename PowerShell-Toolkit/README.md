@@ -51,7 +51,7 @@ A comprehensive collection of production-ready PowerShell scripts for system man
 ### One-Line Install (Recommended)
 ```powershell
 # Run as Administrator
-iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/yourusername/powershell-toolkit/main/Install.ps1'))
+iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/DakodaStemen/Scripts/main/PowerShell-Toolkit/Install.ps1'))
 ```
 
 ### Manual Installation
@@ -67,6 +67,15 @@ iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercon
 
 ## 📖 Usage
 
+### Quick Start Launcher
+```powershell
+# Use the convenient health check launcher
+.\Quick-Health-Check.ps1           # Standard check
+.\Quick-Health-Check.ps1 -Detailed # Comprehensive analysis
+.\Quick-Health-Check.ps1 -Quick    # Fast overview
+```
+
+### Individual Scripts
 Each script has detailed help documentation:
 
 ```powershell
@@ -155,17 +164,17 @@ MIT License - Feel free to use in personal or commercial projects.
 
 ## 🔗 Links
 
-- **GitHub**: [github.com/yourusername/powershell-toolkit](https://github.com/yourusername/powershell-toolkit)
-- **Portfolio**: [yourportfolio.com/scripts](https://yourportfolio.com/scripts)
-- **Issues**: [Report bugs or request features](https://github.com/yourusername/powershell-toolkit/issues)
+- **GitHub**: [github.com/DakodaStemen/Scripts](https://github.com/DakodaStemen/Scripts)
+- **Portfolio**: [dakoda.co](https://dakoda.co)
+- **Issues**: [Report bugs or request features](https://github.com/DakodaStemen/Scripts/issues)
 
 ---
 
 ## 📞 Support
 
-- 📧 Email: your@email.com
-- 💬 Discord: YourDiscord#0000
-- 🐦 Twitter: @yourtwitter
+- 📧 Email: contact@dakoda.co
+- � LinkedIn: [linkedin.com/in/dakodastemen](https://linkedin.com/in/dakodastemen)
+- 🌐 Portfolio: [dakoda.co](https://dakoda.co)
 
 ---
 

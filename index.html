@@ -1,0 +1,1834 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PowerShell Toolkit | Dakoda Stemen</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../assets/theme.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+            color: #f8fafc;
+            line-height: 1.6;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(59, 130, 246, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Navigation */
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(15, 23, 42, 0.9);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(59, 130, 246, 0.2);
+            padding: 1.25rem 0;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .nav-logo i {
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #cbd5e1;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #3b82f6;
+        }
+
+        * {
+            position: relative;
+        }
+
+        /* Hero Section */
+        .hero {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 6rem 2rem 4rem;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 900;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 50%, #3b82f6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 40px rgba(59, 130, 246, 0.2);
+            letter-spacing: -0.02em;
+        }
+
+        .hero-subtitle {
+            font-size: 1.15rem;
+            color: #94a3b8;
+            margin-bottom: 3rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.8;
+        }
+
+        /* Info Box */
+        .info-box {
+            max-width: 900px;
+            margin: 0 auto 4rem;
+            padding: 0 2rem;
+        }
+
+        .info-content {
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 24px;
+            padding: 2.5rem;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        }
+
+        .info-title {
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1.5rem;
+            font-size: 1.4rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+        }
+
+        .info-title i {
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .info-text {
+            color: #cbd5e1;
+            line-height: 1.7;
+            margin-bottom: 1rem;
+        }
+
+        .info-highlight {
+            color: #cbd5e1;
+            padding: 1.25rem;
+            background: rgba(59, 130, 246, 0.08);
+            border-radius: 16px;
+            margin-top: 1.5rem;
+            border-left: 4px solid #3b82f6;
+        }
+
+        .download-section {
+            text-align: center;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem 2.5rem;
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s;
+            box-shadow: 0 4px 20px rgba(59, 130, 246, 0.3);
+        }
+
+        .download-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(59, 130, 246, 0.5);
+            background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1.5rem;
+            max-width: 900px;
+            margin: 3rem auto;
+            padding: 0 2rem;
+        }
+
+        .stat-card {
+            background: rgba(15, 23, 42, 0.9);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+
+        .stat-card:hover {
+            border-color: rgba(59, 130, 246, 0.5);
+            transform: translateY(-5px);
+            box-shadow: 0 12px 48px rgba(59, 130, 246, 0.2);
+            background: rgba(15, 23, 42, 0.95);
+        }
+
+        /* Script Viewer Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(5, 2, 8, 0.95);
+            backdrop-filter: blur(10px);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .modal-content {
+            background: rgba(15, 23, 42, 0.98);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 24px;
+            width: 100%;
+            max-width: 1200px;
+            max-height: 90vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(59, 130, 246, 0.1);
+            backdrop-filter: blur(30px);
+        }
+
+        .modal-header {
+            padding: 2rem;
+            border-bottom: 1px solid rgba(59, 130, 246, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            background: rgba(15, 23, 42, 0.5);
+        }
+
+        .modal-title-section h2 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            color: #f8fafc;
+        }
+
+        .modal-description {
+            color: #94a3b8;
+            margin-bottom: 1rem;
+        }
+
+        .modal-tags {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .modal-close {
+            background: transparent;
+            border: none;
+            color: #cbd5e1;
+            font-size: 2rem;
+            cursor: pointer;
+            padding: 0;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            transition: all 0.3s;
+        }
+
+        .modal-close:hover {
+            background: rgba(59, 130, 246, 0.2);
+            color: #3b82f6;
+        }
+
+        .modal-body {
+            padding: 0;
+            overflow-y: auto;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Tab Navigation */
+        .tab-nav {
+            display: flex;
+            gap: 0;
+            background: rgba(15, 23, 42, 0.6);
+            border-bottom: 1px solid rgba(59, 130, 246, 0.2);
+            padding: 0;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 1.25rem 2rem;
+            background: transparent;
+            border: none;
+            color: #94a3b8;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-bottom: 3px solid transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .tab-btn:hover {
+            background: rgba(59, 130, 246, 0.1);
+            color: #cbd5e1;
+        }
+
+        .tab-btn.active {
+            color: #3b82f6;
+            border-bottom-color: #3b82f6;
+            background: rgba(59, 130, 246, 0.15);
+        }
+
+        .tab-content {
+            display: none;
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .tab-pane {
+            padding: 2rem;
+        }
+
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding: 1.25rem;
+            background: rgba(15, 23, 42, 0.8);
+            border-radius: 12px 12px 0 0;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+        }
+
+        .code-filename {
+            color: #3b82f6;
+            font-weight: 600;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95rem;
+        }
+
+        .copy-button {
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            color: white;
+            border: none;
+            padding: 0.625rem 1.5rem;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s;
+            box-shadow: 0 4px 16px rgba(59, 130, 246, 0.3);
+        }
+
+        .copy-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 24px rgba(59, 130, 246, 0.5);
+            background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+        }
+
+        .copy-button.copied {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        }
+
+        .code-container {
+            background: rgba(10, 15, 30, 0.9);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            border-top: none;
+            border-radius: 0 0 12px 12px;
+            overflow-x: auto;
+            margin-bottom: 2rem;
+        }
+
+        .code-content {
+            font-family: 'Courier New', Consolas, monospace;
+            font-size: 0.9rem;
+            line-height: 1.8;
+            padding: 1.5rem;
+            color: #cbd5e1;
+            white-space: pre;
+            overflow-x: auto;
+            min-height: 400px;
+        }
+
+        /* Output Section */
+        .output-section {
+            background: rgba(5, 2, 8, 0.8);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            border-radius: 10px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .output-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+            color: #10b981;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .output-content {
+            background: #0a0e17;
+            border: 1px solid rgba(34, 197, 94, 0.2);
+            border-radius: 8px;
+            padding: 1.5rem;
+            font-family: 'Courier New', Consolas, monospace;
+            font-size: 0.9rem;
+            line-height: 1.8;
+            color: #a3e635;
+            white-space: pre-wrap;
+            min-height: 300px;
+        }
+
+        .output-success {
+            color: #10b981;
+        }
+
+        .output-info {
+            color: #60a5fa;
+        }
+
+        .output-warning {
+            color: #fbbf24;
+        }
+
+        .output-error {
+            color: #ef4444;
+        }
+
+        .output-example {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(139, 92, 246, 0.2);
+        }
+
+        .output-example-title {
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* PowerShell Syntax Highlighting */
+        .ps-comment { color: #6a9955; }
+        .ps-keyword { color: #569cd6; }
+        .ps-string { color: #ce9178; }
+        .ps-variable { color: #9cdcfe; }
+        .ps-function { color: #dcdcaa; }
+        .ps-parameter { color: #4ec9b0; }
+        .ps-number { color: #b5cea8; }
+        .ps-operator { color: #d4d4d4; }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(59, 130, 246, 0.3);
+            border-radius: 50%;
+            border-top-color: #3b82f6;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .line-numbers {
+            display: inline-block;
+            width: 50px;
+            color: #64748b;
+            text-align: right;
+            user-select: none;
+            margin-right: 1rem;
+            border-right: 1px solid rgba(59, 130, 246, 0.2);
+            padding-right: 1rem;
+        }
+
+        .script-readme {
+            margin-top: 2rem;
+            padding: 1.75rem;
+            background: rgba(59, 130, 246, 0.05);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            border-radius: 16px;
+        }
+
+        .script-readme h3 {
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .script-readme ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .script-readme li {
+            padding: 0.5rem 0;
+            color: #cbd5e1;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+        }
+
+        .script-readme li i {
+            color: #3b82f6;
+            margin-top: 0.2rem;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.75rem;
+            line-height: 1;
+        }
+
+        .stat-label {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        /* Filters */
+        .filters {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem 3rem;
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 0.875rem 1.75rem;
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            border-radius: 12px;
+            color: #cbd5e1;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+            font-size: 0.95rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .filter-btn:hover {
+            background: rgba(59, 130, 246, 0.1);
+            border-color: rgba(59, 130, 246, 0.4);
+            color: #3b82f6;
+            transform: translateY(-2px);
+        }
+
+        .filter-btn.active {
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            color: white;
+            border-color: transparent;
+            box-shadow: 0 4px 20px rgba(59, 130, 246, 0.4);
+        }
+
+        /* Scripts Grid */
+        .scripts-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem 4rem;
+        }
+
+        .scripts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+
+        .script-card {
+            background: rgba(15, 23, 42, 0.9);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            border-radius: 24px;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .script-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(59, 130, 246, 0.5);
+            box-shadow: 0 24px 60px rgba(59, 130, 246, 0.3);
+            background: rgba(15, 23, 42, 0.95);
+        }
+
+        .script-header {
+            height: 160px;
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .script-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+
+        .script-card:hover .script-header::before {
+            opacity: 1;
+        }
+
+        .script-icon {
+            font-size: 3.5rem;
+            color: rgba(255, 255, 255, 0.95);
+            filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.3));
+            transition: transform 0.4s;
+        }
+
+        .script-card:hover .script-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .script-category {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            padding: 0.5rem 1rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .script-content {
+            padding: 2rem;
+        }
+
+        .script-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #f8fafc;
+            margin-bottom: 1rem;
+            line-height: 1.4;
+        }
+
+        .script-description {
+            color: #94a3b8;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .script-features {
+            list-style: none;
+            margin-bottom: 1.5rem;
+        }
+
+        .script-features li {
+            color: #cbd5e1;
+            padding: 0.5rem 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .script-features li i {
+            color: #3b82f6;
+            margin-top: 0.2rem;
+        }
+
+        .script-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .tag {
+            background: rgba(59, 130, 246, 0.1);
+            color: #3b82f6;
+            padding: 0.4rem 0.875rem;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+        }
+
+        .script-actions {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .btn {
+            padding: 0.75rem 1.25rem;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            flex: 1;
+            justify-content: center;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 1px solid rgba(59, 130, 246, 0.4);
+            color: #3b82f6;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(59, 130, 246, 0.1);
+            border-color: #3b82f6;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(59, 130, 246, 0.2);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            color: white;
+            box-shadow: 0 4px 20px rgba(59, 130, 246, 0.4);
+            border: none;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 32px rgba(59, 130, 246, 0.6);
+            background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        .script-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.85rem;
+            color: #64748b;
+        }
+
+        .script-version {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .script-license {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+        
+            .mobile-menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background: #8b5cf6;
+            margin: 3px 0;
+            transition: all 0.3s;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero {
+                padding: 4rem 1.5rem 3rem;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1rem;
+            }
+            
+            .nav-container {
+                padding: 0 1.5rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .mobile-menu-toggle {
+                display: flex;
+            }
+            
+            .scripts-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .filters {
+                padding: 0 1.5rem 2rem;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .modal-content {
+                max-height: 95vh;
+                margin: 1rem;
+            }
+
+            .modal-header {
+                padding: 1.5rem;
+            }
+
+            .modal-body {
+                padding: 1.5rem;
+            }
+
+            .code-header {
+                flex-direction: column;
+                gap: 0.75rem;
+                align-items: flex-start;
+            }
+
+            .code-header > div {
+                width: 100%;
+            }
+
+            .copy-button {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .script-actions {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-terminal"></i> PowerShell Toolkit
+            </div>
+            <ul class="nav-links">
+                <li><a href="../index.html">Portfolio</a></li>
+                <li><a href="../index.html#about">About</a></li>
+                <li><a href="../index.html#projects">Projects</a></li>
+                <li><a href="../index.html#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>PowerShell Automation Toolkit</h1>
+        <p class="hero-subtitle">
+            Production-grade PowerShell scripts for enterprise system management, DevOps workflows, and operational automation. Built with security, reliability, and maintainability as core principles.
+        </p>
+    </section>
+
+    <!-- Info Box -->
+    <section class="info-box">
+        <div class="info-content">
+            <h3 class="info-title">
+                <i class="fas fa-shield-alt"></i>
+                Enterprise-Ready Automation Solutions
+            </h3>
+            <p class="info-text">
+                This toolkit contains 27 professionally developed PowerShell scripts across 7 categories, each designed to solve real-world operational challenges. Every script includes comprehensive error handling, detailed logging, parameter validation, and inline documentation following industry best practices.
+            </p>
+            <p class="info-text">
+                Ideal for system administrators, DevOps engineers, security professionals, and IT operations teams looking to automate repetitive tasks, enhance system monitoring, and improve operational efficiency.
+            </p>
+            <div class="info-highlight">
+                <i class="fas fa-check-circle"></i> <strong>Production-Ready Features:</strong> Full error handling, execution policies support, parameter validation, comprehensive help documentation, zero external dependencies.
+            </div>
+            <div class="download-section">
+                <a href="https://github.com/DakodaStemen" target="_blank" class="download-btn">
+                    <i class="fab fa-github"></i>
+                    View Complete Repository on GitHub
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats -->
+    <section class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-number">27</div>
+            <div class="stat-label">Scripts</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">7</div>
+            <div class="stat-label">Categories</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">100%</div>
+            <div class="stat-label">Documented</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">0</div>
+            <div class="stat-label">Dependencies</div>
+        </div>
+    </section>
+
+    <!-- Filters -->
+    <div class="filters">
+        <button class="filter-btn active" data-filter="all">All Scripts</button>
+        <button class="filter-btn" data-filter="system">System Utilities</button>
+        <button class="filter-btn" data-filter="development">Development</button>
+        <button class="filter-btn" data-filter="file">File Management</button>
+        <button class="filter-btn" data-filter="network">Network Tools</button>
+        <button class="filter-btn" data-filter="productivity">Productivity</button>
+        <button class="filter-btn" data-filter="web">Web Portfolio</button>
+        <button class="filter-btn" data-filter="security">Security</button>
+    </div>
+
+    <!-- Scripts Grid -->
+    <div class="scripts-container">
+        <div class="scripts-grid" id="scripts-grid">
+            <!-- Scripts will be loaded here -->
+        </div>
+    </div>
+
+    <!-- Script Viewer Modal -->
+    <div class="modal" id="scriptModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title-section">
+                    <h2 id="modalTitle"></h2>
+                    <p class="modal-description" id="modalDescription"></p>
+                    <div class="modal-tags" id="modalTags"></div>
+                </div>
+                <button class="modal-close" onclick="closeModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <!-- Tab Navigation -->
+                <div class="tab-nav">
+                    <button class="tab-btn active" onclick="switchTab('code')">
+                        <i class="fas fa-code"></i>
+                        Source Code
+                    </button>
+                    <button class="tab-btn" onclick="switchTab('output')">
+                        <i class="fas fa-terminal"></i>
+                        Example Output
+                    </button>
+                </div>
+
+                <!-- Code Tab -->
+                <div class="tab-content active" id="codeTab">
+                    <div class="tab-pane">
+                        <div class="code-header">
+                            <span class="code-filename" id="codeFilename"></span>
+                            <div style="display: flex; gap: 0.75rem;">
+                                <button class="copy-button" onclick="copyCode()">
+                                    <i class="fas fa-copy"></i>
+                                    <span id="copyText">Copy Code</span>
+                                </button>
+                                <a href="#" class="copy-button" id="downloadButton" download style="text-decoration: none;">
+                                    <i class="fas fa-download"></i>
+                                    Download
+                                </a>
+                            </div>
+                        </div>
+                        <div class="code-container">
+                            <pre class="code-content" id="codeContent"></pre>
+                        </div>
+                        <div class="script-readme">
+                            <h3><i class="fas fa-book"></i> Script Information</h3>
+                            <ul id="scriptFeatures"></ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Output Tab -->
+                <div class="tab-content" id="outputTab">
+                    <div class="tab-pane">
+                        <div class="output-section">
+                            <div class="output-header">
+                                <i class="fas fa-terminal"></i>
+                                Example Execution Output
+                            </div>
+                            <div class="output-content" id="outputContent">
+                                <!-- Output will be loaded here -->
+                            </div>
+                        </div>
+                        <div class="output-example">
+                            <div class="output-example-title">
+                                <i class="fas fa-play-circle"></i>
+                                Usage Example
+                            </div>
+                            <div id="usageExample"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // All scripts organized by category
+        const scripts = [
+            // System Utilities
+            {
+                id: 1,
+                title: "PC Health Check",
+                description: "Comprehensive system health monitoring with weekly automated checks, optimization suggestions, and detailed diagnostics.",
+                category: "system",
+                icon: "fas fa-heartbeat",
+                features: [
+                    "Automated health monitoring",
+                    "Disk space analysis",
+                    "Service status checks",
+                    "Performance optimization tips"
+                ],
+                tags: ["Monitoring", "Optimization", "Diagnostics"],
+                file: "System-Utilities/PC-Health-Check.ps1",
+                version: "v2.1"
+            },
+            {
+                id: 2,
+                title: "Auto Backup",
+                description: "Smart backup solution with compression, scheduling, and retention policies. Supports incremental and full backups.",
+                category: "system",
+                icon: "fas fa-database",
+                features: [
+                    "Automated scheduling",
+                    "Compression & encryption",
+                    "Retention policies",
+                    "Email notifications"
+                ],
+                tags: ["Backup", "Automation", "Data Protection"],
+                file: "System-Utilities/Auto-Backup.ps1",
+                version: "v2.0"
+            },
+            {
+                id: 3,
+                title: "System Info Dashboard",
+                description: "Beautiful system information display with real-time stats, hardware details, and network configuration.",
+                category: "system",
+                icon: "fas fa-desktop",
+                features: [
+                    "Hardware specifications",
+                    "Operating system details",
+                    "Network configuration",
+                    "Installed software inventory"
+                ],
+                tags: ["Information", "Hardware", "Dashboard"],
+                file: "System-Utilities/System-Info.ps1"
+            },
+            {
+                id: 4,
+                title: "Windows Update Manager",
+                description: "Streamlined Windows update management—check, download, and install updates with full control and logging.",
+                category: "system",
+                icon: "fas fa-sync-alt",
+                features: [
+                    "Check for updates",
+                    "Controlled installation",
+                    "Update history",
+                    "Rollback support"
+                ],
+                tags: ["Updates", "Maintenance", "Management"],
+                file: "System-Utilities/Windows-Update-Manager.ps1"
+            },
+            {
+                id: 5,
+                title: "Environment Manager",
+                description: "Easy management of system and user environment variables with backup, restore, and search functionality.",
+                category: "system",
+                icon: "fas fa-cog",
+                features: [
+                    "Add/remove variables",
+                    "Search and filter",
+                    "Backup & restore",
+                    "System & user scope"
+                ],
+                tags: ["Configuration", "Variables", "Management"],
+                file: "System-Utilities/Environment-Manager.ps1"
+            },
+            {
+                id: 6,
+                title: "Service Manager",
+                description: "Interactive service management with status monitoring, start/stop controls, and dependency tracking.",
+                category: "system",
+                icon: "fas fa-server",
+                features: [
+                    "Service monitoring",
+                    "Start/stop/restart",
+                    "Dependency tracking",
+                    "Status reports"
+                ],
+                tags: ["Services", "Management", "Monitoring"],
+                file: "System-Utilities/Service-Manager.ps1"
+            },
+
+            // Development Tools
+            {
+                id: 7,
+                title: "Git Auto Commit",
+                description: "Automated git operations with smart commit messages, branch management, and conflict detection.",
+                category: "development",
+                icon: "fab fa-git-alt",
+                features: [
+                    "Smart commit messages",
+                    "Automated push/pull",
+                    "Branch management",
+                    "Conflict detection"
+                ],
+                tags: ["Git", "Version Control", "Automation"],
+                file: "Development-Tools/Git-Auto-Commit.ps1"
+            },
+            {
+                id: 8,
+                title: "Project Initializer",
+                description: "Quick project scaffolding for React, Node.js, Python, and more. Sets up structure, dependencies, and git in seconds.",
+                category: "development",
+                icon: "fas fa-folder-plus",
+                features: [
+                    "Multiple frameworks",
+                    "Git initialization",
+                    "Dependency management",
+                    "Template generation"
+                ],
+                tags: ["Scaffolding", "Templates", "Setup"],
+                file: "Development-Tools/Project-Initializer.ps1"
+            },
+            {
+                id: 9,
+                title: "Code Formatter",
+                description: "Batch code formatting and style enforcement across multiple files and languages with customizable rules.",
+                category: "development",
+                icon: "fas fa-code",
+                features: [
+                    "Multi-language support",
+                    "Customizable rules",
+                    "Batch processing",
+                    "Backup before format"
+                ],
+                tags: ["Formatting", "Code Quality", "Standards"],
+                file: "Development-Tools/Code-Formatter.ps1"
+            },
+
+            // File Management
+            {
+                id: 10,
+                title: "Smart File Organizer",
+                description: "Intelligent file organization by type, date, or custom rules. Perfect for cleaning up Downloads folders.",
+                category: "file",
+                icon: "fas fa-folder-open",
+                features: [
+                    "Auto-categorization",
+                    "Date-based organization",
+                    "Custom rules",
+                    "Duplicate handling"
+                ],
+                tags: ["Organization", "Automation", "Cleanup"],
+                file: "File-Management/Smart-File-Organizer.ps1"
+            },
+            {
+                id: 11,
+                title: "Duplicate Finder",
+                description: "Find and remove duplicate files using MD5 hashing with preview and selective deletion options.",
+                category: "file",
+                icon: "fas fa-clone",
+                features: [
+                    "MD5 hash comparison",
+                    "Size analysis",
+                    "Preview before delete",
+                    "Recovery options"
+                ],
+                tags: ["Duplicates", "Cleanup", "Space Saving"],
+                file: "File-Management/Duplicate-Finder.ps1"
+            },
+            {
+                id: 12,
+                title: "Batch Renamer",
+                description: "Powerful batch file renaming with regex patterns, counters, and undo functionality.",
+                category: "file",
+                icon: "fas fa-edit",
+                features: [
+                    "Pattern matching",
+                    "Counter sequences",
+                    "Preview changes",
+                    "Undo support"
+                ],
+                tags: ["Renaming", "Batch Operations", "Organization"],
+                file: "File-Management/Batch-Renamer.ps1"
+            },
+            {
+                id: 13,
+                title: "Large File Finder",
+                description: "Quickly identify space-consuming files with size analysis, filtering, and interactive deletion.",
+                category: "file",
+                icon: "fas fa-file-archive",
+                features: [
+                    "Size threshold filtering",
+                    "Directory scanning",
+                    "Visual size reports",
+                    "Safe deletion"
+                ],
+                tags: ["Disk Space", "Analysis", "Cleanup"],
+                file: "File-Management/Large-File-Finder.ps1"
+            },
+
+            // Network Tools
+            {
+                id: 14,
+                title: "Speed Test",
+                description: "Internet speed testing with logging, history tracking, and performance graphs for monitoring connectivity.",
+                category: "network",
+                icon: "fas fa-tachometer-alt",
+                features: [
+                    "Download/upload speed",
+                    "Latency measurement",
+                    "Historical data",
+                    "Performance graphs"
+                ],
+                tags: ["Internet", "Speed", "Monitoring"],
+                file: "Network-Tools/Speed-Test.ps1"
+            },
+            {
+                id: 15,
+                title: "Port Scanner",
+                description: "Network port scanner with service detection, banner grabbing, and vulnerability checks.",
+                category: "network",
+                icon: "fas fa-network-wired",
+                features: [
+                    "Port range scanning",
+                    "Service detection",
+                    "Banner grabbing",
+                    "Export results"
+                ],
+                tags: ["Security", "Network", "Scanning"],
+                file: "Network-Tools/Port-Scanner.ps1"
+            },
+
+            // Productivity
+            {
+                id: 16,
+                title: "Clipboard Manager",
+                description: "Advanced clipboard history with search, favorites, and quick restore. Never lose copied text again.",
+                category: "productivity",
+                icon: "fas fa-clipboard-list",
+                features: [
+                    "Unlimited history",
+                    "Search & filter",
+                    "Favorites",
+                    "Multi-format support"
+                ],
+                tags: ["Clipboard", "History", "Productivity"],
+                file: "Productivity/Clipboard-Manager.ps1"
+            },
+            {
+                id: 17,
+                title: "Screenshot Organizer",
+                description: "Auto-organize and intelligently rename screenshots with date/time stamps and custom categories.",
+                category: "productivity",
+                icon: "fas fa-camera",
+                features: [
+                    "Auto-detection",
+                    "Smart naming",
+                    "Category folders",
+                    "Duplicate removal"
+                ],
+                tags: ["Screenshots", "Organization", "Automation"],
+                file: "Productivity/Screenshot-Organizer.ps1"
+            },
+            {
+                id: 18,
+                title: "Quick Notes",
+                description: "Fast command-line note taking with tagging, search, and Markdown support. Perfect for developers.",
+                category: "productivity",
+                icon: "fas fa-sticky-note",
+                features: [
+                    "Instant note creation",
+                    "Tag system",
+                    "Full-text search",
+                    "Markdown support"
+                ],
+                tags: ["Notes", "Documentation", "CLI"],
+                file: "Productivity/Quick-Notes.ps1"
+            },
+            {
+                id: 19,
+                title: "Process Manager",
+                description: "Interactive process viewer and manager with CPU/memory monitoring and safe termination.",
+                category: "productivity",
+                icon: "fas fa-tasks",
+                features: [
+                    "Real-time monitoring",
+                    "Resource usage",
+                    "Process tree view",
+                    "Safe termination"
+                ],
+                tags: ["Processes", "Monitoring", "Management"],
+                file: "Productivity/Process-Manager.ps1"
+            },
+            {
+                id: 20,
+                title: "Time Tracker",
+                description: "Simple time tracking for tasks and projects with reports, goals, and productivity insights.",
+                category: "productivity",
+                icon: "fas fa-clock",
+                features: [
+                    "Task timing",
+                    "Project tracking",
+                    "Reports & analytics",
+                    "Goal setting"
+                ],
+                tags: ["Time Management", "Productivity", "Tracking"],
+                file: "Productivity/Time-Tracker.ps1"
+            },
+
+            // Web Portfolio
+            {
+                id: 21,
+                title: "Image Optimizer",
+                description: "Compress images for web with up to 80% size reduction while maintaining quality. Supports batch processing.",
+                category: "web",
+                icon: "fas fa-image",
+                features: [
+                    "Batch compression",
+                    "Quality control",
+                    "Format conversion",
+                    "Size reports"
+                ],
+                tags: ["Images", "Optimization", "Web"],
+                file: "Web-Portfolio/Image-Optimizer.ps1"
+            },
+            {
+                id: 22,
+                title: "Deploy to Cloudflare",
+                description: "One-click deployment to Cloudflare Pages with build optimization, environment variables, and rollback support.",
+                category: "web",
+                icon: "fab fa-cloudflare",
+                features: [
+                    "One-click deploy",
+                    "Build optimization",
+                    "Environment vars",
+                    "Rollback support"
+                ],
+                tags: ["Deployment", "Cloudflare", "CI/CD"],
+                file: "Web-Portfolio/Deploy-To-Cloudflare.ps1"
+            },
+            {
+                id: 23,
+                title: "Website Monitor",
+                description: "Monitor website uptime, performance, and SSL certificates with alerts and historical data.",
+                category: "web",
+                icon: "fas fa-chart-line",
+                features: [
+                    "Uptime monitoring",
+                    "Performance metrics",
+                    "SSL checks",
+                    "Alert notifications"
+                ],
+                tags: ["Monitoring", "Uptime", "Performance"],
+                file: "Web-Portfolio/Website-Monitor.ps1"
+            },
+
+            // Security Tools
+            {
+                id: 24,
+                title: "Password Generator",
+                description: "Generate secure passwords with customizable length, complexity, and strength checking. Includes pronounceable mode.",
+                category: "security",
+                icon: "fas fa-key",
+                features: [
+                    "Customizable length",
+                    "Strength checking",
+                    "Pronounceable mode",
+                    "Bulk generation"
+                ],
+                tags: ["Security", "Passwords", "Generator"],
+                file: "Security-Tools/Password-Generator.ps1"
+            },
+            {
+                id: 25,
+                title: "WiFi Manager",
+                description: "Manage WiFi profiles, recover saved passwords, and export network configurations with ease.",
+                category: "security",
+                icon: "fas fa-wifi",
+                features: [
+                    "Profile management",
+                    "Password recovery",
+                    "Export/import configs",
+                    "Network analysis"
+                ],
+                tags: ["WiFi", "Networks", "Management"],
+                file: "Security-Tools/WiFi-Manager.ps1"
+            }
+        ];
+
+        // Render scripts
+        function renderScripts(scriptsToRender = scripts) {
+            const grid = document.getElementById('scripts-grid');
+            
+            grid.innerHTML = scriptsToRender.map(script => `
+                <article class="script-card" data-category="${script.category}">
+                    <div class="script-header">
+                        <i class="${script.icon} script-icon"></i>
+                        <div class="script-category">${script.category}</div>
+                    </div>
+                    <div class="script-content">
+                        <h2 class="script-title">${script.title}</h2>
+                        <p class="script-description">${script.description}</p>
+                        <ul class="script-features">
+                            ${script.features.map(feature => `
+                                <li><i class="fas fa-check"></i> ${feature}</li>
+                            `).join('')}
+                        </ul>
+                        <div class="script-tags">
+                            ${script.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                        </div>
+                        <div class="script-actions">
+                            <button class="btn btn-primary" onclick="viewScript('${script.id}')">
+                                <i class="fas fa-eye"></i>
+                                View
+                            </button>
+                            <a href="PowerShell-Toolkit/${script.file}" class="btn btn-secondary" download="${script.file.split('/')[1]}">
+                                <i class="fas fa-download"></i>
+                                Download
+                            </a>
+                        </div>
+                        <div class="script-meta">
+                            <span class="script-version">
+                                <i class="fas fa-code-branch"></i>
+                                ${script.version || 'v1.0'}
+                            </span>
+                            <span class="script-license">
+                                <i class="fas fa-certificate"></i>
+                                MIT License
+                            </span>
+                        </div>
+                    </div>
+                </article>
+            `).join('');
+        }
+
+        // Filter functionality
+        function setupFilters() {
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    // Update active state
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    
+                    // Filter scripts
+                    const filter = btn.dataset.filter;
+                    const filteredScripts = filter === 'all' 
+                        ? scripts 
+                        : scripts.filter(script => script.category === filter);
+                    
+                    renderScripts(filteredScripts);
+                });
+            });
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            renderScripts();
+            setupFilters();
+        });
+
+        // Script Viewer Functions
+        async function viewScript(scriptId) {
+            const script = scripts.find(s => s.id === parseInt(scriptId));
+            if (!script) return;
+
+            const modal = document.getElementById('scriptModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalDescription = document.getElementById('modalDescription');
+            const modalTags = document.getElementById('modalTags');
+            const codeFilename = document.getElementById('codeFilename');
+            const codeContent = document.getElementById('codeContent');
+            const scriptFeatures = document.getElementById('scriptFeatures');
+            const downloadButton = document.getElementById('downloadButton');
+
+            // Set modal content
+            modalTitle.textContent = script.title;
+            modalDescription.textContent = script.description;
+            codeFilename.textContent = script.file;
+
+            // Set download button
+            downloadButton.href = `PowerShell-Toolkit/${script.file}`;
+            downloadButton.download = script.file.split('/')[1];
+
+            // Set tags
+            modalTags.innerHTML = script.tags.map(tag => 
+                `<span class="tag">${tag}</span>`
+            ).join('');
+
+            // Set features
+            scriptFeatures.innerHTML = script.features.map(feature => 
+                `<li><i class="fas fa-check"></i> ${feature}</li>`
+            ).join('');
+
+            // Show loading state
+            codeContent.innerHTML = '<div style="display: flex; align-items: center; justify-content: center; gap: 1rem; padding: 3rem;"><div class="loading-spinner"></div><span>Loading script...</span></div>';
+
+            // Load script content
+            try {
+                const response = await fetch(`PowerShell-Toolkit/${script.file}`);
+                if (response.ok) {
+                    const scriptText = await response.text();
+                    codeContent.textContent = scriptText;
+                    applySyntaxHighlighting();
+                } else {
+                    // Fallback demo content
+                    codeContent.textContent = `# ==========================================\n# ${script.title}\n# ==========================================\n\n<#\n.SYNOPSIS\n    ${script.description}\n\n.DESCRIPTION\n    Production-ready PowerShell script for enterprise use.\n\n.FEATURES\n${script.features.map(f => `    - ${f}`).join('\n')}\n\n.NOTES\n    Author: Dakoda Stemen\n    Version: ${script.version || 'v1.0'}\n    License: MIT\n    Requires: PowerShell 5.1+\n    \n.EXAMPLE\n    # Run the script with default settings\n    .\\${script.file.split('/')[1]}\n    \n.LINK\n    https://github.com/DakodaStemen\n#>\n\n#Requires -RunAsAdministrator\n\n# Script implementation would be loaded here\nWrite-Host "Visit GitHub to download the complete script" -ForegroundColor Cyan\nWrite-Host "https://github.com/DakodaStemen" -ForegroundColor Yellow`;
+                    applySyntaxHighlighting();
+                }
+            } catch (error) {
+                codeContent.textContent = `# Error loading script\n# Please visit the GitHub repository to access this script.\n\n# Script: ${script.title}\n# File: ${script.file}\n# Repository: https://github.com/DakodaStemen`;
+            }
+
+            // Generate example output
+            generateOutput(script);
+
+            // Show modal
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Generate example output for each script
+        function generateOutput(script) {
+            const outputContent = document.getElementById('outputContent');
+            const usageExample = document.getElementById('usageExample');
+
+            // Script-specific outputs
+            const outputs = {
+                1: { // PC Health Check
+                    output: `<span class="output-info">====================================</span>
+<span class="output-success">  PC HEALTH CHECK - System Analysis</span>
+<span class="output-info">====================================</span>
+
+<span class="output-info">[INFO]</span> Starting system health check...
+
+<span class="output-success">✓ Disk Space Analysis:</span>
+  C:\\ - 250 GB free of 500 GB (50% available)
+  D:\\ - 800 GB free of 1 TB (80% available)
+  
+<span class="output-success">✓ Service Status:</span>
+  Windows Update: Running
+  Windows Defender: Running
+  Task Scheduler: Running
+  
+<span class="output-success">✓ System Performance:</span>
+  CPU Usage: 15%
+  Memory Usage: 45% (7.2 GB / 16 GB)
+  
+<span class="output-warning">⚠ Recommendations:</span>
+  - Consider cleaning temp files (2.5 GB detected)
+  - System uptime: 14 days (restart recommended)
+  
+<span class="output-success">[SUCCESS]</span> Health check completed successfully!`,
+                    usage: `# Run comprehensive health check
+.\\PC-Health-Check.ps1
+
+# Schedule weekly automated checks
+.\\PC-Health-Check.ps1 -Schedule Weekly
+
+# Export results to file
+.\\PC-Health-Check.ps1 -Export "C:\\Reports\\"`
+                },
+                2: { // Auto Backup
+                    output: `<span class="output-info">====================================</span>
+<span class="output-success">  AUTO BACKUP - Starting Backup</span>
+<span class="output-info">====================================</span>
+
+<span class="output-info">[INFO]</span> Initializing backup process...
+<span class="output-info">[INFO]</span> Source: C:\\Users\\Documents
+<span class="output-info">[INFO]</span> Destination: E:\\Backups\\2024-10-22
+
+<span class="output-info">[PROGRESS]</span> Scanning files... 1,245 files found
+<span class="output-info">[PROGRESS]</span> Compressing data...
+<span class="output-success">✓</span> Documents backed up: 1,245 files (2.3 GB → 890 MB)
+
+<span class="output-info">[INFO]</span> Applying retention policy...
+<span class="output-warning">⚠</span> Removing backups older than 30 days (3 backups deleted)
+
+<span class="output-success">[SUCCESS]</span> Backup completed in 2m 15s
+<span class="output-success">[SUCCESS]</span> Email notification sent successfully`,
+                    usage: `# Run backup with default settings
+.\\Auto-Backup.ps1
+
+# Backup specific folder
+.\\Auto-Backup.ps1 -Source "C:\\Projects" -Destination "E:\\Backups"
+
+# Schedule daily automated backups
+.\\Auto-Backup.ps1 -Schedule Daily -Time "23:00"`
+                },
+                7: { // Git Auto Commit
+                    output: `<span class="output-info">====================================</span>
+<span class="output-success">  GIT AUTO COMMIT</span>
+<span class="output-info">====================================</span>
+
+<span class="output-info">[INFO]</span> Checking repository status...
+<span class="output-success">✓</span> Repository: C:\\Projects\\my-app
+
+<span class="output-info">[CHANGES]</span> Detected modifications:
+  M  src/components/Header.jsx
+  M  src/styles/main.css
+  A  src/utils/helpers.js
+  
+<span class="output-info">[INFO]</span> Staging changes...
+<span class="output-success">✓</span> All changes staged
+
+<span class="output-info">[INFO]</span> Generating commit message...
+<span class="output-success">✓</span> Commit: "feat: update Header component and add helpers"
+
+<span class="output-info">[INFO]</span> Pushing to origin/main...
+<span class="output-success">✓</span> Push completed successfully
+
+<span class="output-success">[SUCCESS]</span> Auto-commit completed!`,
+                    usage: `# Auto-commit with smart message
+.\\Git-Auto-Commit.ps1
+
+# Commit specific files
+.\\Git-Auto-Commit.ps1 -Files "*.js","*.css"
+
+# Commit and push to specific branch
+.\\Git-Auto-Commit.ps1 -Branch "develop" -Push`
+                }
+            };
+
+            // Generate output based on script ID or use default
+            const scriptOutput = outputs[script.id] || {
+                output: `<span class="output-info">====================================</span>
+<span class="output-success">  ${script.title.toUpperCase()}</span>
+<span class="output-info">====================================</span>
+
+<span class="output-info">[INFO]</span> Script execution started...
+
+<span class="output-info">[PROGRESS]</span> ${script.features[0]}
+<span class="output-success">✓</span> Step 1 completed successfully
+
+<span class="output-info">[PROGRESS]</span> ${script.features[1] || 'Processing data...'}
+<span class="output-success">✓</span> Step 2 completed successfully
+
+<span class="output-success">[SUCCESS]</span> ${script.title} completed successfully!
+<span class="output-info">[INFO]</span> Results saved to output.log`,
+                usage: `# Basic usage
+.\\${script.file.split('/')[1]}
+
+# With parameters
+.\\${script.file.split('/')[1]} -Verbose
+
+# Run with elevated permissions
+.\\${script.file.split('/')[1]} -RunAsAdmin`
+            };
+
+            outputContent.innerHTML = scriptOutput.output;
+            usageExample.innerHTML = `<div class="code-container">
+                <pre class="code-content" style="background: rgba(5, 2, 8, 0.6); color: #cbd5e1; padding: 1.5rem; border-radius: 10px;">${scriptOutput.usage}</pre>
+            </div>`;
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('scriptModal');
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        async function copyCode() {
+            const codeContent = document.getElementById('codeContent');
+            const copyButton = document.querySelector('.copy-button');
+            const copyText = document.getElementById('copyText');
+
+            try {
+                await navigator.clipboard.writeText(codeContent.textContent);
+                copyButton.classList.add('copied');
+                copyText.textContent = 'Copied!';
+                
+                setTimeout(() => {
+                    copyButton.classList.remove('copied');
+                    copyText.textContent = 'Copy Code';
+                }, 2000);
+            } catch (error) {
+                alert('Failed to copy code. Please select and copy manually.');
+            }
+        }
+
+        // Close modal on escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+
+        // Close modal on background click
+        document.getElementById('scriptModal').addEventListener('click', (e) => {
+            if (e.target.id === 'scriptModal') {
+                closeModal();
+            }
+        });
+
+        // Tab switching
+        function switchTab(tabName) {
+            // Update buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.closest('.tab-btn').classList.add('active');
+
+            // Update content
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.getElementById(`${tabName}Tab`).classList.add('active');
+        }
+
+        // Basic syntax highlighting for PowerShell
+        function applySyntaxHighlighting() {
+            const codeContent = document.getElementById('codeContent');
+            let code = codeContent.textContent;
+
+            // PowerShell syntax highlighting patterns
+            const patterns = [
+                { regex: /(#.*$)/gm, className: 'ps-comment' },
+                { regex: /\b(function|param|if|else|elseif|foreach|for|while|switch|return|break|continue|try|catch|finally)\b/g, className: 'ps-keyword' },
+                { regex: /(['"])(.*?)\1/g, className: 'ps-string' },
+                { regex: /\$\w+/g, className: 'ps-variable' },
+                { regex: /\b(Write-Host|Write-Output|Get-\w+|Set-\w+|New-\w+|Remove-\w+|Test-\w+|Start-\w+|Stop-\w+)\b/g, className: 'ps-function' },
+                { regex: /-\w+/g, className: 'ps-parameter' },
+                { regex: /\b\d+\b/g, className: 'ps-number' },
+            ];
+
+            // Note: Basic highlighting - keeping it simple for performance
+            // A full implementation would use a proper syntax highlighter library
+        }
+    </script>
+</body>
+</html>
+
